@@ -26,3 +26,7 @@ jobs:
       - run: npm run test:ui
         env:
           REDREVIEW_UI_ORIGIN: http://100.64.0.10:8844
+      - name: Live provider smoke check (temporary data)
+        if: matrix.python == '3.11'
+        continue-on-error: true
+        run: python3 scripts/check-live-providers.py
