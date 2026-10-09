@@ -1,0 +1,19 @@
+{
+  "name": "redreview",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "start": "python3 -m src.server",
+    "dev": "python3 -m src.server",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "python3 -m unittest discover -s tests -v",
+    "test:ui": "node tests/ui.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "jsdom": "26.1.0"
+  }
+}
