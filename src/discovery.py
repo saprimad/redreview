@@ -293,7 +293,18 @@ class Discovery:
                 params['filter'] = ','.join(filters)
             result = self.request(p, 'works', params)
             return [openalex_record(w) for w in result['results']], int(result['meta']['count']), ['OA links are provider-reported; availability and licences can change.']
-        term = f'"{q}"[AID]' if mode == 'doi' else f'({q})[Title]' if mode == 'title' else f'({q})'
+        if mode == 'title':
+            # PubMed hyphenated phrases absent from its phrase index can yield
+            # zero matches even for a known citation. Scope significant words
+            # individually instead of turning an entire pasted title into a phrase.
+            stops = {'a', 'an', 'and', 'are', 'as', 'at', 'be', 'but', 'by', 'for', 'from', 'has', 'he', 'in', 'is', 'it', 'its', 'of', 'on', 'or', 'that', 'the', 'to', 'was', 'were', 'will', 'with'}
+            words = list(dict.fromkeys(w for w in re.findall(r'\w+', q) if w.casefold() not in stops))
+            if not words:
+                raise ValueError('Title search needs a significant word. Use keyword mode for advanced PubMed syntax.')
+            term = '(' + ' AND '.join(f'{w}[Title]' for w in words) + ')'
+            notes.append('PubMed title search matches significant title words with AND; punctuation and common stop words are ignored. Use keyword mode for advanced field/Boolean syntax.')
+        else:
+            term = f'"{q}"[AID]' if mode == 'doi' else f'({q})'
         if c['year_from'] or c['year_to']:
             term += f" AND ({c['year_from'] or '1000'}:{c['year_to'] or '2100'}[dp])"
         if c['journal']:

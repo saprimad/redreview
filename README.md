@@ -28,6 +28,8 @@ Default storage is `.data/redreview.sqlite3`, ignored by Git. PDF bytes are stor
 
 1. Create or open a non-demo review project and select **Article search**.
 2. Choose Crossref, OpenAlex or PubMed; search by keywords, title or DOI.
+   PubMed title mode matches significant title words with AND and ignores punctuation/stop words; use keyword mode for advanced Boolean/field syntax.
+
 3. Optionally filter by publication years and journal. Use ISSN for Crossref, ISSN or an OpenAlex source ID for OpenAlex, and a journal name or ISSN for PubMed. Free/open-access filtering is available for OpenAlex and PubMed. Clear filters for DOI lookup.
 4. Inspect title, authors, year, journal, identifiers, available abstract and article links. Missing metadata is labelled. No synthetic data is inserted into discovery results.
 5. Select results on the current page and choose a destination project. Import records; read the counts and details for imports, identifier duplicates, failures and uncertain matches.
@@ -42,7 +44,7 @@ Provider identifiers, source, full query/filter parameters and UTC retrieval tim
 | --- | --- | --- |
 | Crossref | Keywords, ranked title search, DOI; years and journal ISSN. OA status is unknown. | No key required. Optional contact email selects the polite pool. Backend obeys published rate headers and limits requests to at most one/second by default. |
 | OpenAlex | Keywords, scoped title search, DOI; years, journal ISSN/source ID and OA filter; provider-reported OA webpages/PDF URLs. | Current documentation allows casual keyless use; a free key increases allowance. Optional `OPENALEX_API_KEY` is sent in a backend Authorization header. Rate/daily allowance errors are displayed. |
-| PubMed | ESearch + batch EFetch for keywords, title or DOI; years, journal name/ISSN and free-full-text filter. Structured abstracts and PMID when supplied. | Optional `NCBI_API_KEY`; a key is not required at the app's conservative limit (one request every 0.4 seconds, below NCBI's unkeyed 3/second limit). |
+| PubMed | ESearch + batch EFetch for keywords, title words or DOI; years, journal name/ISSN and free-full-text filter. Structured abstracts and PMID when supplied. | Optional `NCBI_API_KEY`; a key is not required at the app's conservative limit (one request every 0.4 seconds, below NCBI's unkeyed 3/second limit). |
 
 Set optional keys/contact details **in the backend environment**, never the frontend:
 

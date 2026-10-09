@@ -76,6 +76,14 @@ class ProviderTests(unittest.TestCase):
             self.assertEqual(request.call_args_list[1].args[2]['id'], '12345')
             self.assertTrue(any('translated query' in n for n in result['notes']))
 
+    def test_pubmed_title_handles_hyphens_and_phrase_index(self):
+        d = Discovery()
+        with patch.object(d, 'request', return_value={'esearchresult': {'idlist': [], 'count': '0'}}) as request:
+            d.search(dict(provider='pubmed', mode='title', query='The Pfizer-BioNTech COVID-19 vaccine'))
+            self.assertEqual(request.call_args.args[2]['term'], '(Pfizer[Title] AND BioNTech[Title] AND COVID[Title] AND 19[Title] AND vaccine[Title])')
+        with self.assertRaises(ValueError):
+            d.search(dict(provider='pubmed', mode='title', query='?!'))
+
     def test_input_validation(self):
         for fields in [dict(query=''), dict(query='x', provider='fake'), dict(query='x', oa=True), dict(query='x', page=501), dict(query='x', year_from='2025', year_to='2020'), dict(query='bad', mode='doi'), dict(query='10.1000/x', mode='doi', journal='Nature'), dict(query='x', journal='Nature')]:
             with self.subTest(fields=fields), self.assertRaises(ValueError):
