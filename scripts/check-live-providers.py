@@ -55,6 +55,12 @@ def main():
                         raise RuntimeError('Scoped title search returned no records.')
                     print(f'PASS {provider} title: {len(title_page["records"])} results')
                 except (ProviderError, ValueError, RuntimeError) as error:
+                    if provider == 'pubmed':
+                        import json
+                        for candidate in [f'({reference_title})[Title]', ' AND '.join(w+'[Title]' for w in reference_title.split() if '-' not in w and len(w)>2), '"'+reference_title.replace('-', ' ')+'"[Title:~1000]', 'serologic[Title] AND vaccine[Title]']:
+                            response = discovery.request('pubmed','esearch.fcgi',dict(db='pubmed',term=candidate,retmode='json',retmax=1))
+                            found=response.get('esearchresult',{})
+                            print('TITLE DIAGNOSTIC',json.dumps(dict(query=candidate,count=found.get('count'),errors=found.get('errorlist'),translation=found.get('querytranslation'))))
                     print(f'FAIL {provider} title: {error}')
                     failed += 1
     return bool(failed)
