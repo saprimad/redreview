@@ -47,12 +47,12 @@ Exact DOI/PMID/provider-ID matches are skipped during discovery import; retrieva
 
 Provider-reported free article webpages are distinct from downloadable OA PDFs. OpenAlex OA locations supply direct PDF links only when reported as OA. PubMed links to PMC article pages when a PMCID is present, but does not assume a reuse licence or manufacture PDF URLs. Crossref deposit PDF links are not treated as proof of free access. PDFs are never fetched automatically; attach only lawful local copies. External links and licences can change, and discovery does not grant full-text access to every article.
 
-Live requests were attempted but blocked by backend network restrictions in the implementation sandbox. Parsing, HTTP contracts, imports and UI interactions were checked using explicit test fixtures. No synthetic fixture is used by production search. Browser rendering, real provider responses and a local restart still need unrestricted verification; see validation.md.
+Local live requests were blocked by sandbox network restrictions. Subsequent GitHub-runner keyword/DOI searches, imports and duplicate checks succeeded for all three providers. Real Chrome desktop and emulated mobile layout checks passed; fixtures are explicitly test-only. Local restart and actual iPhone Safari/PDF access still need unrestricted verification; see validation.md.
 
 ## Remaining work
 
-- Verify live searches and DOI lookups, including provider filters and OA links, on an unrestricted backend.
-- Verify responsive browser rendering and inline PDF viewing on iPhone and desktop.
+- Repeat provider checks when credentials/allowances change; inspect OA licences before using full text.
+- Verify actual iPhone Safari access and inline PDF viewing; remote Chrome layout checks are already passing.
 - Scale local duplicate matching; support study/report grouping and explicit reviewer completion policies.
 - Implement authentication and verify user/project isolation before any public writable deployment.
 - Optional ranking assistance must preserve human decision history; no AI inclusion/exclusion is implemented.

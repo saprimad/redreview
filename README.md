@@ -110,4 +110,4 @@ Opt-in live provider smoke check (internet access required, temporary database o
 python3 scripts/check-live-providers.py
 ```
 
-See [actual validation results and blocked checks](docs/validation.md). Live provider queries, browser rendering, local restart and remote publication must be verified on a machine/session allowing the required network and sockets.
+See [actual validation results and blocked checks](docs/validation.md). GitHub CI passed on Python 3.11 and 3.14, including all 38 backend tests and both DOM suites. Live keyword/DOI provider searches, temporary imports and duplicate checks passed on the GitHub runner. Real Chrome passed desktop and emulated iPhone-viewport search/import/screening checks. Local startup remains socket-blocked in Codex; restart outside it and verify actual iPhone Safari/PDF access. The Pages workflow requires repository Pages to be enabled before its landing page can be reported live.
