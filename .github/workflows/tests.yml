@@ -30,3 +30,13 @@ jobs:
         if: matrix.python == '3.11'
         continue-on-error: true
         run: python3 scripts/check-live-providers.py
+      - name: Real Chrome desktop and iPhone viewport checks
+        if: matrix.python == '3.11'
+        run: node tests/browser.test.mjs
+      - name: Upload synthetic browser QA screenshots
+        if: always() && matrix.python == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-browser-qa
+          path: browser-artifacts/
+          if-no-files-found: ignore
