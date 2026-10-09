@@ -80,7 +80,7 @@ class ProviderTests(unittest.TestCase):
         d = Discovery()
         with patch.object(d, 'request', return_value={'esearchresult': {'idlist': [], 'count': '0'}}) as request:
             d.search(dict(provider='pubmed', mode='title', query='The Pfizer-BioNTech COVID-19 vaccine'))
-            self.assertEqual(request.call_args.args[2]['term'], '(Pfizer[Title] AND BioNTech[Title] AND COVID[Title] AND 19[Title] AND vaccine[Title])')
+            self.assertEqual(request.call_args.args[2]['term'], '"The Pfizer BioNTech COVID 19 vaccine"[Title:~1000]')
         with self.assertRaises(ValueError):
             d.search(dict(provider='pubmed', mode='title', query='?!'))
 

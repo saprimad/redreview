@@ -28,7 +28,7 @@ Default storage is `.data/redreview.sqlite3`, ignored by Git. PDF bytes are stor
 
 1. Create or open a non-demo review project and select **Article search**.
 2. Choose Crossref, OpenAlex or PubMed; search by keywords, title or DOI.
-   PubMed title mode matches significant title words with AND and ignores punctuation/stop words; use keyword mode for advanced Boolean/field syntax.
+   PubMed title mode matches supplied title words in any order within a proximity window of 1000 words and ignores punctuation; use keyword mode for advanced Boolean/field syntax.
 
 3. Optionally filter by publication years and journal. Use ISSN for Crossref, ISSN or an OpenAlex source ID for OpenAlex, and a journal name or ISSN for PubMed. Free/open-access filtering is available for OpenAlex and PubMed. Clear filters for DOI lookup.
 4. Inspect title, authors, year, journal, identifiers, available abstract and article links. Missing metadata is labelled. No synthetic data is inserted into discovery results.
